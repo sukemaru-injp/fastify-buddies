@@ -11,5 +11,5 @@ docker compose build
 ```
 
 ```shell
-docker compose run
+docker compose up
 ```

@@ -1,11 +1,11 @@
-import fastify from 'fastify'
+import fastify, { FastifyRequest } from 'fastify'
 import cors from '@fastify/cors'
 
 const server = fastify({
   logger: true
 })
 
-const options = { port: 8000, host: '0.0.0.0' }
+const options = { port: Number(process.env.PORT) || 8000, host: '0.0.0.0' }
 
 server.register(cors, {})
 
@@ -16,14 +16,17 @@ server.get('/', async (_request, reply) => {
     .send({ name: 'suke', age: 25 })
 })
 
-server.post('/img', (req, rep) => {
-  console.info('PostImage', req)
+interface PostImgReq {}
+
+server.post('/img', (req: FastifyRequest<PostImgReq>, rep) => {
+  console.info('PostImage', typeof req)
 
   rep.code(200)
     .send({ text: 'ok'})
 })
 
 const start = async () => {
+  console.info('ServerStart', process.env.PORT)
   try {
     await server.listen(options)
   } catch (err) {
