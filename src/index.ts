@@ -1,10 +1,11 @@
-import fastify, { FastifyRequest } from 'fastify'
+import fastify from 'fastify'
 import cors from '@fastify/cors'
+import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox'
 import { postImgSchema } from './schema/postImgSchma'
 
 const server = fastify({
   logger: true
-})
+}).withTypeProvider<TypeBoxTypeProvider>()
 
 const options = { port: Number(process.env.PORT) || 8000, host: '0.0.0.0' }
 
@@ -17,8 +18,10 @@ server.get('/', async (_request, reply) => {
     .send({ name: 'suke', age: 25 })
 })
 
-server.post('/img', postImgSchema, (req: FastifyRequest, rep) => {
+server.post('/img', postImgSchema, (req, rep) => {
   console.info('PostImage', req.body, req.params)
+  const { key } = req.body
+
   rep.code(200)
     .send({ text: 'ok'})
 })

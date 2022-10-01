@@ -1,12 +1,10 @@
 import { RouteShorthandOptions } from "fastify"
 import { Static, Type } from '@sinclair/typebox';
 
-const bodySchema = Type.Object({
-  key: Type.String()
-})
-
-export const postImgSchema: RouteShorthandOptions = {
+export const postImgSchema = {
   schema: {
-    body: bodySchema
+    body: Type.Object({
+      key: Type.String()
+    })
   }
-}
+} as const

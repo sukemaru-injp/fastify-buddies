@@ -13,6 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "@fastify/cors": "^8.1.0",
+    "@fastify/type-provider-json-schema-to-ts": "^2.1.1",
+    "@fastify/type-provider-typebox": "^2.3.0",
     "@sinclair/typebox": "^0.24.44",
     "canvas": "^2.10.1",
     "fastify": "^4.6.0",
