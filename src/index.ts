@@ -1,6 +1,6 @@
 import fastify, { FastifyRequest } from 'fastify'
 import cors from '@fastify/cors'
-import type { PostImgReq } from './types'
+import { postImgSchema } from './schema/postImgSchma'
 
 const server = fastify({
   logger: true
@@ -17,8 +17,8 @@ server.get('/', async (_request, reply) => {
     .send({ name: 'suke', age: 25 })
 })
 
-server.post('/img', (req: FastifyRequest, rep) => {
-  console.info('PostImage', req.body)
+server.post('/img', postImgSchema, (req: FastifyRequest, rep) => {
+  console.info('PostImage', req.body, req.params)
   rep.code(200)
     .send({ text: 'ok'})
 })
