@@ -1,7 +1,17 @@
 import fastify from 'fastify'
 import cors from '@fastify/cors'
 import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox'
+import { initializeApp, cert } from 'firebase-admin/app'
 import { postImgSchema } from './schema/postImgSchma'
+
+const serviceAccount = require('../config/firebase-admin.json')
+
+const app = initializeApp({
+  credential: cert(serviceAccount)
+})
+
+console.log('firebase', app)
+
 
 const server = fastify({
   logger: true
@@ -19,9 +29,13 @@ server.get('/', async (_request, reply) => {
 })
 
 server.post('/img', postImgSchema, (req, rep) => {
-  console.info('PostImage', req.body, req.params)
+  console.info('PostImage', req.body)
   const { key } = req.body
 
+  if (!key) {
+    rep.code(400)
+    .send({ message: "keyが入力されていません" })
+  }
   rep.code(200)
     .send({ text: 'ok'})
 })
