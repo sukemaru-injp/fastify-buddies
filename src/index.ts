@@ -3,6 +3,7 @@ import cors from '@fastify/cors'
 import { TypeBoxTypeProvider } from '@fastify/type-provider-typebox'
 import { initializeApp, cert } from 'firebase-admin/app'
 import { postImgSchema } from './schema/postImgSchma'
+import { getBuddiesSchema } from './schema/getBuddiesScheme'
 
 const serviceAccount = require('../config/firebase-admin.json')
 
@@ -38,6 +39,20 @@ server.post('/img', postImgSchema, (req, rep) => {
   }
   rep.code(200)
     .send({ text: 'ok'})
+})
+
+server.get('/buddies', getBuddiesSchema, (req, res) => {
+  console.info('GetBuddies', req.body)
+  const { key } = req.params
+
+  if (!key) {
+    res.code(400)
+    .send({ message: "keyが入力されていません" })
+  }
+
+  res.code(200)
+    .send({ text: 'ok'})
+
 })
 
 const start = async () => {
